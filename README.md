@@ -1,5 +1,3 @@
-KODE LENGKAP UAS SISTEM DATABASE KENDALI BANJIR
-
 1. CREATE DATABASE DAN TABEL
 
 ```sql
@@ -65,7 +63,7 @@ INSERT INTO Peringatan (id_waduk, level_peringatan, pesan, tanggal_issued) VALUE
 (1, 'Awas', 'Batas maksimum terlampaui, lakukan pelebaran pintu air', '2024-01-16 10:00:00');
 ```
 
-3. 10 SOAL UAS BESERTA JAWABAN
+3. 10 CONTOH SOAL BESERTA JAWABAN
 
 ```sql
 -- SOAL 1: DML (UPDATE)
@@ -150,32 +148,3 @@ LEFT JOIN Peringatan p ON d.id_waduk = p.id_waduk
 GROUP BY d.id_waduk
 ORDER BY jumlah_peringatan DESC;
 ```
-
-4. BONUS QUERY TAMBAHAN
-
-```sql
--- 1. Cari peringatan dalam 24 jam terakhir
-SELECT * FROM Peringatan 
-WHERE tanggal_issued >= NOW() - INTERVAL 24 HOUR;
-
--- 2. Tambahkan kolom status dan update berdasarkan kondisi
-ALTER TABLE Data_tinggi_air ADD COLUMN status VARCHAR(20);
-
-UPDATE Data_tinggi_air t
-JOIN Data_waduk d ON t.id_waduk = d.id_waduk
-SET t.status = CASE 
-    WHEN t.ketinggian_air < d.ketinggian_max * 0.7 THEN 'Aman'
-    WHEN t.ketinggian_air < d.ketinggian_max * 0.9 THEN 'Waspada'
-    ELSE 'Bahaya'
-END;
-
--- 3. Ranking waduk berdasarkan ketinggian terakhir
-SELECT d.nama_waduk, t.ketinggian_air,
-       RANK() OVER (ORDER BY t.ketinggian_air DESC) as ranking
-FROM Data_waduk d
-JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk
-WHERE t.tanggal_waktu = (
-    SELECT MAX(tanggal_waktu) 
-    FROM Data_tinggi_air t2 
-    WHERE t2.id_waduk = d.id_waduk
-);
