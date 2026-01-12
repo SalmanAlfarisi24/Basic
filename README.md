@@ -1,70 +1,132 @@
-Running Text (teks berjalan) menggunakan Arduino dan LCD 16x2.
-1. Persiapan Awal
-Sebelum masuk ke kode utama, pastikan kamu sudah menginisialisasi library LiquidCrystal. Berikut adalah contoh setup pin yang umum digunakan:
-#include <LiquidCrystal.h>
+```java
+// Mahasiswa2.java
+package GUI;
 
-// Inisialisasi pin: (RS, E, D4, D5, D6, D7)
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+/**
+ * Class ini berfungsi sebagai model data (Object)
+ * untuk menampung informasi mahasiswa.
+ */
+public class Mahasiswa2 {
+    String nama;
+    String nim;
+    String jurusan;
+    int tahunMasuk;
+    int sksLulus;
+    int sksTidakLulus;
+    String judulSkripsi;
 
-void setup() {
-  lcd.begin(16, 2); // Memulai LCD ukuran 16 kolom, 2 baris
+    // Method untuk menghitung total SKS valid
+    public int getTotalValid() {
+        return sksLulus - sksTidakLulus;
+    }
 }
+```
 
-2. Kode Running Text: Kiri ke Kanan
-Logika ini menggunakan perulangan for yang menambah nilai kolom secara bertahap.
-void loop() {
-  // Perulangan dari kolom 0 sampai 15
-  for (int i = 0; i <= 15; i++) {
-    lcd.clear();         // Bersihkan layar dari teks sebelumnya
-    lcd.setCursor(i, 0); // Atur posisi kursor (kolom i, baris 0)
-    lcd.print("AMCC HS"); // Cetak teks
-    delay(200);          // Kecepatan gerakan (semakin kecil, semakin cepat)
-  }
+```java
+// Input_Nilai.java
+package GUI;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Input_Nilai extends JFrame {
+
+    JTextField txtNama, txtNim, txtJurusan, txtTahun, txtLulus, txtTidakLulus, txtJudul;
+    JTextArea areaOutput;
+
+    public Input_Nilai() {
+        setTitle("Form Input Mahasiswa");
+        setSize(500, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        JPanel panelInput = new JPanel(new GridLayout(8, 2, 5, 5));
+
+        panelInput.add(new JLabel("Nama Mahasiswa"));
+        txtNama = new JTextField();
+        panelInput.add(txtNama);
+
+        panelInput.add(new JLabel("NIM"));
+        txtNim = new JTextField();
+        panelInput.add(txtNim);
+
+        panelInput.add(new JLabel("Jurusan"));
+        txtJurusan = new JTextField();
+        panelInput.add(txtJurusan);
+
+        panelInput.add(new JLabel("Tahun Masuk"));
+        txtTahun = new JTextField();
+        panelInput.add(txtTahun);
+
+        panelInput.add(new JLabel("Jumlah SKS Lulus"));
+        txtLulus = new JTextField();
+        panelInput.add(txtLulus);
+
+        panelInput.add(new JLabel("Jumlah SKS Tidak Lulus"));
+        txtTidakLulus = new JTextField();
+        panelInput.add(txtTidakLulus);
+
+        panelInput.add(new JLabel("Judul Skripsi"));
+        txtJudul = new JTextField();
+        panelInput.add(txtJudul);
+
+        add(panelInput, BorderLayout.NORTH);
+
+        areaOutput = new JTextArea();
+        areaOutput.setEditable(false);
+        add(new JScrollPane(areaOutput), BorderLayout.CENTER);
+
+        JPanel panelButton = new JPanel();
+        JButton btnSimpan = new JButton("Simpan");
+        JButton btnReset = new JButton("Reset");
+        panelButton.add(btnSimpan);
+        panelButton.add(btnReset);
+        add(panelButton, BorderLayout.SOUTH);
+
+        btnSimpan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Mahasiswa2 m = new Mahasiswa2();
+                    m.nama = txtNama.getText();
+                    m.nim = txtNim.getText();
+                    m.jurusan = txtJurusan.getText();
+                    m.tahunMasuk = Integer.parseInt(txtTahun.getText());
+                    m.sksLulus = Integer.parseInt(txtLulus.getText());
+                    m.sksTidakLulus = Integer.parseInt(txtTidakLulus.getText());
+                    m.judulSkripsi = txtJudul.getText();
+
+                    areaOutput.append(
+                        "Nama Mahasiswa : " + m.nama + "\n" +
+                        "NIM : " + m.nim + "\n" +
+                        "Jurusan : " + m.jurusan + "\n" +
+                        "Tahun Masuk : " + m.tahunMasuk + "\n" +
+                        "SKS Lulus : " + m.sksLulus + "\n" +
+                        "SKS Tidak Lulus : " + m.sksTidakLulus + "\n" +
+                        "Total SKS Valid Skripsi : " + m.getTotalValid() + "\n" +
+                        "Judul Skripsi : " + m.judulSkripsi + "\n\n"
+                    );
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Input angka pada Tahun/SKS tidak valid!");
+                }
+            }
+        });
+
+        btnReset.addActionListener(e -> {
+            txtNama.setText("");
+            txtNim.setText("");
+            txtJurusan.setText("");
+            txtTahun.setText("");
+            txtLulus.setText("");
+            txtTidakLulus.setText("");
+            txtJudul.setText("");
+            areaOutput.setText("");
+        });
+    }
+
+    public static void main(String[] args) {
+        new Input_Nilai().setVisible(true);
+    }
 }
-
-Penjelasan Logika:
- * for (int i = 0; i <= 15; i++): Variabel i bertindak sebagai koordinat kolom. Nilainya akan naik satu per satu dari 0, 1, 2, hingga 15.
- * lcd.setCursor(i, 0): Baris ini adalah kuncinya. Karena nilai i berubah-ubah, maka titik awal tulisan pun akan bergeser ke kanan pada setiap putaran loop.
- * lcd.clear(): Sangat penting untuk menghapus tulisan di posisi sebelumnya agar tidak terjadi penumpukan karakter (efek bayangan).
-3. Kode Running Text: Kanan ke Kiri
-Untuk arah sebaliknya, kita hanya perlu membalik logika perulangannya.
-void loop() {
-  // Perulangan mundur dari kolom 15 ke 0
-  for (int i = 15; i >= 0; i--) {
-    lcd.clear();
-    lcd.setCursor(i, 0);
-    lcd.print("AMCC HS");
-    delay(200);
-  }
-}
-
-Penjelasan Logika:
- * i = 15; i >= 0; i--: Kita mulai dari kolom paling ujung kanan (16-1 = 15) dan menguranginya satu per satu hingga mencapai kolom 0. Ini memberikan ilusi teks bergerak mundur atau masuk dari sisi kanan.
-4. Tips Tambahan: Menggunakan Fungsi Bawaan
-Selain menggunakan logika setCursor() secara manual, library LiquidCrystal sebenarnya memiliki fungsi bawaan untuk menggeser seluruh isi layar:
- * lcd.scrollDisplayLeft(): Menggeser semua teks di LCD satu langkah ke kiri.
- * lcd.scrollDisplayRight(): Menggeser semua teks di LCD satu langkah ke kanan.
-> Catatan Penting: Teknik setCursor() yang ada di tutorial tersebut lebih fleksibel jika kamu hanya ingin menggerakkan satu baris saja sementara baris lainnya tetap diam (statis).
->
-Kode Arduino: Running Text "Mantul" (Bolak-Balik)
-Kita hanya perlu menggabungkan dua logika perulangan for di dalam fungsi void loop().
-void loop() 
-{
-  // 1. Gerakan dari Kiri ke Kanan
-  for (int i = 0; i <= 15; i++) 
-  {
-    lcd.clear();
-    lcd.setCursor(i, 0);   // Posisi kolom i, baris atas
-    lcd.print("AMCC HS");
-    delay(150);            // Kecepatan gerak
-  }
-
-  // 2. Gerakan dari Kanan ke Kiri
-  for (int i = 15; i >= 0; i--) 
-  {
-    lcd.clear();
-    lcd.setCursor(i, 0);   // Posisi kolom i, baris atas
-    lcd.print("AMCC HS");
-    delay(150);            // Kecepatan gerak
-  }
-}
+```
