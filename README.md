@@ -21,19 +21,19 @@
         }
 
         .form-group {
-            display: flex; /* Mengaktifkan Flexbox */
+            display: flex;
             align-items: center;
             margin-bottom: 15px;
         }
 
         .form-group label {
-            flex: 0 0 120px; /* Label memiliki lebar tetap 120px */
+            flex: 0 0 120px;
             font-weight: bold;
         }
 
         .form-group input, 
         .form-group select {
-            flex: 1; /* Input akan mengambil sisa ruang yang ada */
+            flex: 1; //ambil sisa ruang 
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
