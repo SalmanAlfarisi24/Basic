@@ -1,132 +1,89 @@
 ```java
-// Mahasiswa2.java
-package GUI;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
 
-/**
- * Class ini berfungsi sebagai model data (Object)
- * untuk menampung informasi mahasiswa.
- */
-public class Mahasiswa2 {
-    String nama;
-    String nim;
-    String jurusan;
-    int tahunMasuk;
-    int sksLulus;
-    int sksTidakLulus;
-    String judulSkripsi;
+        .form-container {
+            background: white;
+            padding: 20px;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-    // Method untuk menghitung total SKS valid
-    public int getTotalValid() {
-        return sksLulus - sksTidakLulus;
-    }
-}
-```
+        .form-group {
+            display: flex; /* Mengaktifkan Flexbox */
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-```java
-// Input_Nilai.java
-package GUI;
+        .form-group label {
+            flex: 0 0 120px; /* Label memiliki lebar tetap 120px */
+            font-weight: bold;
+        }
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+        .form-group input, 
+        .form-group select {
+            flex: 1; /* Input akan mengambil sisa ruang yang ada */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-public class Input_Nilai extends JFrame {
+        .btn-simpan {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    JTextField txtNama, txtNim, txtJurusan, txtTahun, txtLulus, txtTidakLulus, txtJudul;
-    JTextArea areaOutput;
+        .btn-simpan:hover {
+            background-color: #45a049;
+        }
+        </style>
+</head>
+<body>
+    <div class="form-container">
+    <h2>Form Input Barang</h2>
+    <form>
+        <div class="form-group">
+            <label>Kode Barang</label>
+            <input type="text" placeholder="Contoh: BRG001">
+        </div>
+        <div class="form-group">
+            <label>Nama Barang</label>
+            <input type="text" placeholder="Nama barang lengkap">
+        </div>
+        <div class="form-group">
+            <label>Kategori</label>
+            <select>
+                <option>-- Pilih Kategori --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Harga (Rp)</label>
+            <input type="number" value="0">
+        </div>
+        <div class="form-group">
+            <label>Stok Barang</label>
+            <input type="text" placeholder="Jumlah stok">
+        </div>
+        <button type="submit" class="btn-simpan">Simpan Barang</button>
+    </form>
+</div>
+</body>
+</html>
 
-    public Input_Nilai() {
-        setTitle("Form Input Mahasiswa");
-        setSize(500, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        JPanel panelInput = new JPanel(new GridLayout(8, 2, 5, 5));
-
-        panelInput.add(new JLabel("Nama Mahasiswa"));
-        txtNama = new JTextField();
-        panelInput.add(txtNama);
-
-        panelInput.add(new JLabel("NIM"));
-        txtNim = new JTextField();
-        panelInput.add(txtNim);
-
-        panelInput.add(new JLabel("Jurusan"));
-        txtJurusan = new JTextField();
-        panelInput.add(txtJurusan);
-
-        panelInput.add(new JLabel("Tahun Masuk"));
-        txtTahun = new JTextField();
-        panelInput.add(txtTahun);
-
-        panelInput.add(new JLabel("Jumlah SKS Lulus"));
-        txtLulus = new JTextField();
-        panelInput.add(txtLulus);
-
-        panelInput.add(new JLabel("Jumlah SKS Tidak Lulus"));
-        txtTidakLulus = new JTextField();
-        panelInput.add(txtTidakLulus);
-
-        panelInput.add(new JLabel("Judul Skripsi"));
-        txtJudul = new JTextField();
-        panelInput.add(txtJudul);
-
-        add(panelInput, BorderLayout.NORTH);
-
-        areaOutput = new JTextArea();
-        areaOutput.setEditable(false);
-        add(new JScrollPane(areaOutput), BorderLayout.CENTER);
-
-        JPanel panelButton = new JPanel();
-        JButton btnSimpan = new JButton("Simpan");
-        JButton btnReset = new JButton("Reset");
-        panelButton.add(btnSimpan);
-        panelButton.add(btnReset);
-        add(panelButton, BorderLayout.SOUTH);
-
-        btnSimpan.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Mahasiswa2 m = new Mahasiswa2();
-                    m.nama = txtNama.getText();
-                    m.nim = txtNim.getText();
-                    m.jurusan = txtJurusan.getText();
-                    m.tahunMasuk = Integer.parseInt(txtTahun.getText());
-                    m.sksLulus = Integer.parseInt(txtLulus.getText());
-                    m.sksTidakLulus = Integer.parseInt(txtTidakLulus.getText());
-                    m.judulSkripsi = txtJudul.getText();
-
-                    areaOutput.append(
-                        "Nama Mahasiswa : " + m.nama + "\n" +
-                        "NIM : " + m.nim + "\n" +
-                        "Jurusan : " + m.jurusan + "\n" +
-                        "Tahun Masuk : " + m.tahunMasuk + "\n" +
-                        "SKS Lulus : " + m.sksLulus + "\n" +
-                        "SKS Tidak Lulus : " + m.sksTidakLulus + "\n" +
-                        "Total SKS Valid Skripsi : " + m.getTotalValid() + "\n" +
-                        "Judul Skripsi : " + m.judulSkripsi + "\n\n"
-                    );
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Input angka pada Tahun/SKS tidak valid!");
-                }
-            }
-        });
-
-        btnReset.addActionListener(e -> {
-            txtNama.setText("");
-            txtNim.setText("");
-            txtJurusan.setText("");
-            txtTahun.setText("");
-            txtLulus.setText("");
-            txtTidakLulus.setText("");
-            txtJudul.setText("");
-            areaOutput.setText("");
-        });
-    }
-
-    public static void main(String[] args) {
-        new Input_Nilai().setVisible(true);
-    }
-}
 ```
