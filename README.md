@@ -2,86 +2,107 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Barang</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-        .form-container {
-            background: white;
-            padding: 25px;
-            width: 100%;
-            max-width: 450px;
-            border-radius: 10px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        form {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 15px;
-            align-items: center;
-        }
-        label {
-            font-weight: bold;
-        }
-        input, select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-        }
-        .btn-simpan {
-            grid-column: span 2;
-            padding: 10px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Input Barang</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    width:420px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.form-group{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    margin-bottom:12px;
+    align-items:center;
+}
+
+input,select{
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    margin-top:10px;
+    width:100%;
+    padding:10px;
+    background:blue;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:darkblue;
+}
+</style>
 </head>
+
 <body>
 
-<div class="form-container">
+<div class="container">
     <h2>Form Input Barang</h2>
+
     <form>
-        <label for="kode">Kode Barang</label>
-        <input type="text" id="kode" placeholder="Contoh: BRG001" required>
+        
+        <div class="form-group">
+            <label>Kode Barang</label>
+            <input type="text" placeholder="Contoh: BRG001">
+        </div>
 
-        <label for="nama">Nama Barang</label>
-        <input type="text" id="nama" placeholder="Nama barang lengkap" required>
+        <div class="form-group">
+            <label>Nama Barang</label>
+            <input type="text" placeholder="Nama barang lengkap">
+        </div>
 
-        <label for="kategori">Kategori</label>
-        <select id="kategori" required>
-            <option value="">-- Pilih Kategori --</option>
-            <option value="makanan">Makanan</option>
-            <option value="minuman">Minuman</option>
-            <option value="elektronik">Elektronik</option>
-            <option value="alat-tulis">Alat Tulis</option>
-        </select>
+        <div class="form-group">
+            <label>Kategori</label>
+            <select>
+                <option>-- Pilih Kategori --</option>
+                <option>Makanan</option>
+                <option>Minuman</option>
+                <option>Elektronik</option>
+                <option>Alat Tulis</option>
+            </select>
+        </div>
 
-        <label for="harga">Harga (Rp)</label>
-        <input type="number" id="harga" placeholder="0" min="0" required>
+        <div class="form-group">
+            <label>Harga (Rp)</label>
+            <input type="number" placeholder="0">
+        </div>
 
-        <label for="stok">Stok Barang</label>
-        <input type="number" id="stok" placeholder="Jumlah stok" min="0" required>
+        <div class="form-group">
+            <label>Stok Barang</label>
+            <input type="number" placeholder="Jumlah stok">
+        </div>
 
-        <button type="submit" class="btn-simpan">Simpan Barang</button>
+        <button type="submit">
+            Simpan Barang
+        </button>
+
     </form>
+
 </div>
 
 </body>
